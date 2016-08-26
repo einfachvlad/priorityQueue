@@ -151,7 +151,10 @@ isNodeInParentNodes(currentNode){
 			if(this.parentNodes.indexOf(node)>this.parentNodes.indexOf(node.parent)){
 				if(isZeroElement){
 					this.parentNodes.splice(this.parentNodes.indexOf(node),1,Number(0));
-					this.parentNodes.splice(this.parentNodes.indexOf(Number(0)),1,node);}
+					this.parentNodes.splice(this.parentNodes.indexOf(Number(0)),1,node);
+					if(this.nodes.length!=0){
+						this.nodes.splice(this.nodes.indexOf(node),1,node.parent);
+						this.nodes.splice(this.nodes.indexOf(node.parent),1,node);}}
 				else{
 					this.parentNodes.splice(this.parentNodes.indexOf(node),1,node.parent);
 					this.parentNodes.splice(this.parentNodes.indexOf(node.parent),1,node);
@@ -164,7 +167,10 @@ isNodeInParentNodes(currentNode){
 			else{
 				if(isZeroElement){
 					this.parentNodes.splice(this.parentNodes.indexOf(node.parent),1,Number(0));
-					this.parentNodes.splice(this.parentNodes.indexOf(Number(0)),1,node.parent);}
+					this.parentNodes.splice(this.parentNodes.indexOf(Number(0)),1,node.parent);
+					if(this.nodes.length!=0){
+						this.nodes.splice(this.nodes.indexOf(node),1,node.parent);
+						this.nodes.splice(this.nodes.indexOf(node.parent),1,node);}}
 				else{
 					this.parentNodes.splice(this.parentNodes.indexOf(node.parent),1,node);
 					this.parentNodes.splice(this.parentNodes.indexOf(node),1,node.parent);
@@ -221,8 +227,6 @@ isNodeInParentNodes(currentNode){
 					isZeroElement=true;
 				}
 			}
-				// else if(this.isNodeInParentNodes(child))
-				// 	this.parentNodes.splice(this.parentNodes.indexOf(node),1);
 
 			if(child.left==null||child.right==null){
 			 if(!this.isNodeInParentNodes(child)){
@@ -236,9 +240,6 @@ isNodeInParentNodes(currentNode){
 				 isZeroElement=true;
 			 }
 			}
-				// else if(this.isNodeInParentNodes(node))
-				// 	this.parentNodes.splice(this.parentNodes.indexOf(child),1);
-
 
 if(!this.isNodeInParentNodes(child)&&!this.isNodeInParentNodes(node)){
 if(this.nodes.indexOf(child)>this.nodes.indexOf(node)){
@@ -290,4 +291,5 @@ else{
 		}
 	}
 }
+
 module.exports = MaxHeap;
