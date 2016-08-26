@@ -56,12 +56,14 @@ if(parent.left===child)
 {
 	child.left=parent;
 	child.right=parent.right;
-	child.right=parent.right;
+	if(parent.right!=null)
+	parent.right.parent=child;
 
 }
 else{
 	child.left=parent.left;
 	child.right=parent;
+	if(parent.left!=null)
 	parent.left.parent=child;
 
 }

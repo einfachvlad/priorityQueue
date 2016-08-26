@@ -3,13 +3,13 @@ const Node = require('./node');
 class MaxHeap {
 	constructor() {
 		this.root=null;
-    this.parentNodes=[];
-    this.nodes=[];
+		this.parentNodes=[];
+		this.nodes=[];
 	}
 
 	push(data, priority) {
 	var node=new Node(data,priority);
-  this.insertNode(node);
+	this.insertNode(node);
 	this.shiftNodeUp(node);
 	}
 
@@ -46,6 +46,14 @@ if(!this.isEmpty()){
 			parent.left=null;
 		else
 			parent.right=null;
+		if(!this.isNodeInParentNodes(parent)){
+			if(parent.parent!=null){
+			if(parent.parent.right==parent)
+				this.parentNodes.unshift(parent);
+			else{
+				this.parentNodes.splice(this.parentNodes.indexOf(parent.parent.right),0,parent);
+			}}
+			}
 
 		this.parentNodes.pop();
 		this.nodes.pop();
@@ -79,26 +87,26 @@ if(!this.isEmpty()){
 	}
 
 	clear() {
-    this.root=null;
-    this.parentNodes=[];
-    this.nodes=[];
+		this.root=null;
+		this.parentNodes=[];
+		this.nodes=[];
 	}
 
-  insertNode(node) {
-    if(this.isEmpty()){
-    this.root=node;
-    this.nodes.push(node);
-    this.parentNodes.push(node);
+	insertNode(node) {
+		if(this.isEmpty()){
+		this.root=node;
+		this.nodes.push(node);
+		this.parentNodes.push(node);
 }
-    else{
-      this.nodes.push(node);
-      this.parentNodes.push(node);
-      var parent=this.nodes[Math.floor((this.nodes.length-2)/2)];
-      parent.appendChild(node);
-      if(parent.left!=null&&parent.right!=null)
-      	this.parentNodes.splice(this.parentNodes.indexOf(parent),1);
-    }
-  }
+		else{
+			this.nodes.push(node);
+			this.parentNodes.push(node);
+			var parent=this.nodes[Math.floor((this.nodes.length-2)/2)];
+			parent.appendChild(node);
+			if(parent.left!=null&&parent.right!=null)
+				this.parentNodes.splice(this.parentNodes.indexOf(parent),1);
+		}
+	}
 
 isNodeInParentNodes(currentNode){
 	if(this.parentNodes.some(node=>{
@@ -143,7 +151,7 @@ isNodeInParentNodes(currentNode){
 			if(this.parentNodes.indexOf(node)>this.parentNodes.indexOf(node.parent)){
 				if(isZeroElement){
 					this.parentNodes.splice(this.parentNodes.indexOf(node),1,Number(0));
-			  	this.parentNodes.splice(this.parentNodes.indexOf(Number(0)),1,node);}
+					this.parentNodes.splice(this.parentNodes.indexOf(Number(0)),1,node);}
 				else{
 					this.parentNodes.splice(this.parentNodes.indexOf(node),1,node.parent);
 					this.parentNodes.splice(this.parentNodes.indexOf(node.parent),1,node);
@@ -185,7 +193,7 @@ isNodeInParentNodes(currentNode){
 		while(node.left!=null||node.right!=null){
 			if(node.left==null){
 			 if(node.right.priority<node.priority)
-			 	break;
+				break;
 		 }
 		 else{
 			 if(node.left.priority<node.priority)
@@ -194,6 +202,12 @@ isNodeInParentNodes(currentNode){
 			if(node.left.priority>node.priority)
 				var child=node.left;
 			else var child=node.right;
+			if(node.left!=null&&node.right!=null){
+				if(node.left.priority>node.priority&&node.right.priority>node.priority){
+					if(node.left.priority<node.right.priority)
+						child=node.right;
+					}
+				}
 
 			if(node.left==null||node.right==null){
 				if(!this.isNodeInParentNodes(node)){
@@ -207,8 +221,8 @@ isNodeInParentNodes(currentNode){
 					isZeroElement=true;
 				}
 			}
-				else if(this.isNodeInParentNodes(node))
-					this.parentNodes.splice(this.parentNodes.indexOf(node),1);
+				// else if(this.isNodeInParentNodes(child))
+				// 	this.parentNodes.splice(this.parentNodes.indexOf(node),1);
 
 			if(child.left==null||child.right==null){
 			 if(!this.isNodeInParentNodes(child)){
@@ -222,15 +236,25 @@ isNodeInParentNodes(currentNode){
 				 isZeroElement=true;
 			 }
 			}
-				else if(this.isNodeInParentNodes(child))
-					this.parentNodes.splice(this.parentNodes.indexOf(child),1);
+				// else if(this.isNodeInParentNodes(node))
+				// 	this.parentNodes.splice(this.parentNodes.indexOf(child),1);
 
 
-
+if(!this.isNodeInParentNodes(child)&&!this.isNodeInParentNodes(node)){
+if(this.nodes.indexOf(child)>this.nodes.indexOf(node)){
+			this.nodes.splice(this.nodes.indexOf(child),1,node);
+			this.nodes.splice(this.nodes.indexOf(node),1,child);
+}
+else{
+			this.nodes.splice(this.nodes.indexOf(node),1,child);
+			this.nodes.splice(this.nodes.indexOf(child),1,node);
+	}
+}
+else{
 			if(this.parentNodes.indexOf(child)>this.parentNodes.indexOf(node)){
 				if(isZeroElement){
 					this.parentNodes.splice(this.parentNodes.indexOf(child),1,Number(0));
-			  	this.parentNodes.splice(this.parentNodes.indexOf(Number(0)),1,child);}
+					this.parentNodes.splice(this.parentNodes.indexOf(Number(0)),1,child);}
 				else{
 					this.parentNodes.splice(this.parentNodes.indexOf(child),1,node);
 					this.parentNodes.splice(this.parentNodes.indexOf(node),1,child);
@@ -252,6 +276,7 @@ isNodeInParentNodes(currentNode){
 						this.nodes.splice(this.nodes.indexOf(child),1,node);}
 				}
 			}
+		}
 
 			this.parentNodes.forEach(child=>{
 				if(child===0)
@@ -263,8 +288,6 @@ isNodeInParentNodes(currentNode){
 			this.root=child;
 		this.shiftNodeDown(node);
 		}
-
 	}
 }
-
 module.exports = MaxHeap;
