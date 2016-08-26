@@ -4,11 +4,13 @@ class PriorityQueue {
 	constructor(maxSize) {
 this.maxSize=maxSize||30;
 this.heap=new MaxHeap();
+this.queueSize=0;
 	}
 
 	push(data, priority) {
-if(this.size()>=this.maxSize)
-throw new Error("Queue has max size");
+		this.heap.push(data,priority);
+// if(this.size()>=this.maxSize)
+// throw new Error("Queue has max size");
 	}
 
 	shift() {
