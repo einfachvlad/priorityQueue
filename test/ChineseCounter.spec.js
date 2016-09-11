@@ -17,7 +17,6 @@ describe('ChineseCounter', () => {
     it('adding a person', () => {
         let person = new Chinese("Lao", 50);
         chineseCounter.agesArray[person.getAge()].add(person);
-        expect(chineseCounter.agesArray[50].head.person.getName()).to.equal("Lao");
-        expect(chineseCounter.agesArray[50].head.person.getAge()).to.equal(50);
+        expect(chineseCounter.agesArray[50].head.isEq(chineseCounter.agesArray[50].head.data, person)).to.equal(true);
     });
 });

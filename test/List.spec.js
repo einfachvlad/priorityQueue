@@ -5,13 +5,11 @@ const List = require('../src/List');
 describe('List', () => {
 
     it('#contructor', () => {
-        let list = new List();
+        let s = new List();
 
-        expect(list.head.person.getName()).to.equal("-1");
-        expect(list.tail.person.getName()).to.equal("-1");
-        expect(list.head.person.getAge()).to.equal(-1);
-        expect(list.tail.person.getAge()).to.equal(-1);
-        expect(list.count).to.equal(0);
+        expect(s.head.data).to.equal(-1);
+        expect(s.tail.data).to.equal(-1);
+        expect(s.count).to.equal(0);
     });
 
     describe('#add', () => {
@@ -40,20 +38,21 @@ describe('List', () => {
             expect(h.count).to.equal(0);
         });
         it('remove last element if list has one element', () => {
-            let h = new List();
+            let t = new List();
             let element = new Chinese("Dima", 18)
-            h.add(element);
-            let relust = h.remove(element);
-            expect(h.count).to.equal(0);
+            t.add(element);
+            let relust = t.remove(element);
+            expect(t.count).to.equal(0);
         });
         it('if element is first in list', () => {
             let h = new List();
             let element = new Chinese("Katya", 19)
+            let element2 = new Chinese("Lin", 19);
             h.add(element);
-            h.add(new Chinese("Lin", 19));
+            h.add(element2);
             h.remove(element);
             expect(h.count).to.equal(1);
-            expect(h.head.person.getName()).to.equal("Lin");
+            expect(h.head.isEq(h.head.data, element2)).to.equal(true);
         });
         it('remove element in random position of list', () => {
             let h = new List();

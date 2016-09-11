@@ -1,15 +1,21 @@
 const Chinese = require('./Chinese');
 
 class ListItem {
-    constructor(person) {
-        this.person = person;
+    constructor(data) {
+        this.data = data;
         this.next = null;
     }
+    isEq(a, b) {
+        if (a == b) return true;
+        else if (typeof(a) != "object" || typeof(b) != "object")
+            return false;
+        for (var i in a) {
+            if (!this.isEq(a[i], b[i])) return false;
+        }
+        return true;
+    }
     setNext(nextItem) {
-        if (nextItem.person.getAge() == this.person.getAge())
-            this.next = nextItem;
-        else throw new Error("next person has not the same age");
-
+        this.next = nextItem;
     }
     getNext() {
         return this.next;
